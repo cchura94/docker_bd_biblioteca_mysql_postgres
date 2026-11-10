@@ -1,6 +1,6 @@
-CREATE DATABASE biblioteca;
+CREATE DATABASE biblioteca_final;
 
-USE biblioteca;
+USE biblioteca_final;
 
 CREATE TABLE usuarios(
     id INT AUTO_INCREMENT PRIMARY KEY,
