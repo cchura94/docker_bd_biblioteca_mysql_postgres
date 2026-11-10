@@ -1,0 +1,31 @@
+services:
+  basedatos_mysql:
+    container_name: basedatos_mysql
+    image: mysql:9.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: 123456
+      TZ: America/La_Paz
+    ports:
+      - "3333:3306"
+    volumes:
+      - basedatos_mysql:/var/lib/mysql
+      - ./biblioteca_mysql.sql:/docker-entrypoint-initdb.d/biblioteca_mysql.sql
+  
+  phpmyadmin_mysql:
+    container_name: phpmyadmin_mysql
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - basedatos_mysql
+    ports:
+      - "8888:80"
+    environment:
+      PMA_HOST: basedatos_mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+
+volumes:
+  basedatos_mysql:
