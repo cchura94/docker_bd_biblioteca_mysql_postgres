@@ -26,6 +26,33 @@ services:
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root
+  
+  basedatos_postgres:
+    container_name: basedatos_postgres
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: biblioteca
+    ports:
+      - "5444:5432"
+    volumes:
+      - postgres_db_data:/var/lib/postgresql/data
+      - ./biblioteca_postgres.sql:/docker-entrypoint-initdb.d/biblioteca_postgres.sql
+  
+  pgadmin_postgres:
+    container_name: pgadmin_postgres
+    image: dpage/pgadmin4
+    restart: always
+    depends_on:
+      - basedatos_postgres
+    ports:
+      - "85:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
 
 volumes:
   basedatos_mysql:
+  postgres_db_data:
